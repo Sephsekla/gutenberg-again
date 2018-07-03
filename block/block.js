@@ -51,7 +51,48 @@
 				tagName: 'p', value: props.attributes.content
 			} );
 		},
-	} );
+	}
+	 );
+
+	 blocks.registerBlockType( 'gutenberg-examples/example-03-editable3', {
+		title: __( 'Example: Editable non-meta', 'gutenberg-examples' ),
+		icon: 'universal-access-alt',
+		category: 'layout',
+
+		attributes: {
+			content: {
+				type: 'string',
+				source: 'attribute',
+				selector: 'p',
+
+			},
+		},
+
+		edit: function( props ) {
+			var content = props.attributes.content;
+			var focus = props.focus;
+			function onChangeContent( newContent ) {
+				props.setAttributes( { content: newContent } );
+			}
+
+
+			return el(
+				TextControl,
+				{
+					tagName: 'p',
+					className: props.className,
+					onChange: onChangeContent,
+					value: content,
+				}
+			);
+		},
+
+		save: function( props ) {
+			return el('h3',null,props.attributes.content);
+		},
+	}
+);
+
 } )(
 	window.wp.blocks,
 	window.wp.editor,
