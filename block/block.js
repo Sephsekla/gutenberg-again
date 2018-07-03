@@ -47,9 +47,7 @@
 		},
 
 		save: function( props ) {
-			return el( TextControl.Content, {
-				tagName: 'p', value: props.attributes.content
-			} );
+			return
 		},
 	}
 	 );
@@ -88,7 +86,9 @@
 		},
 
 		save: function( props ) {
-			return el('h3',null,props.attributes.content);
+			return el('h3',{
+				className: 'test-h3',
+			},props.attributes.content);
 		},
 	}
 );
