@@ -17,36 +17,27 @@
 defined('ABSPATH') || exit;
 
 
-function gfblock_enqueue_block_editor_assets() {
-	// Scripts.
+add_action( 'enqueue_block_editor_assets', 'gutenberg_examples_03_enqueue_block_editor_assets' );
+function gutenberg_examples_03_enqueue_block_editor_assets() {
 	wp_enqueue_script(
-		'gfblock-block', // Handle.
-		plugin_dir_url( __FILE__ ) . 'block/block.js', // File.
-		array( 'wp-blocks', 'wp-i18n', 'wp-element' ), // Dependencies.
-		filemtime( plugin_dir_path( __FILE__ ) . 'block/block.js' ) // filemtime â€” Gets file modification time.
+		'gutenberg-examples-03',
+		plugins_url( 'block.js', __FILE__ ),
+		array( 'wp-blocks', 'wp-i18n', 'wp-element' ),
+		filemtime( plugin_dir_path( __FILE__ ) . 'block.js' )
 	);
-
-	// Styles.
 	wp_enqueue_style(
-		'gfblock-block-editor', // Handle.
-		plugin_dir_url( __FILE__ ) . 'assets/css/editor.css', // File.
-		array( 'wp-edit-blocks' ), // Dependency.
-		filemtime( plugin_dir_path( __FILE__ ) . 'assets/css/editor.css' ) // filemtime â€” Gets file modification time.
+		'gutenberg-examples-03-editor',
+		plugins_url( 'editor.css', __FILE__ ),
+		array( 'wp-edit-blocks' ),
+		filemtime( plugin_dir_path( __FILE__ ) . 'editor.css' )
 	);
 }
-add_action( 'enqueue_block_editor_assets', 'gfblock_enqueue_block_editor_assets' );
-
-/**
- * Enqueue the block's assets for the frontend.
- *
- * @since 1.0.0
- */
-function gfblock_enqueue_block_assets() {
+add_action( 'enqueue_block_assets', 'gutenberg_examples_03_enqueue_block_assets' );
+function gutenberg_examples_03_enqueue_block_assets() {
 	wp_enqueue_style(
-		'gfblock-frontend', // Handle.
-		plugin_dir_url( __FILE__ ) . 'assets/css/style.css', // File.
-		array( 'wp-blocks' ), // Dependency.
-		filemtime( plugin_dir_path( __FILE__ ) . 'assets/css/style.css' ) // filemtime â€” Gets file modification time.
+		'gutenberg-examples-03',
+		plugins_url( 'style.css', __FILE__ ),
+		array( 'wp-blocks' ),
+		filemtime( plugin_dir_path( __FILE__ ) . 'style.css' )
 	);
 }
-add_action( 'enqueue_block_assets', 'gfblock_enqueue_block_assets' );
