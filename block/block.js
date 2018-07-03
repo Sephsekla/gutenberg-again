@@ -8,6 +8,7 @@
 	var el = element.createElement;
 	var __ = i18n.__;
 	var RichText = editor.RichText;
+	var TextControl = wp.components.TextControl;
 
 	wp.i18n.setLocaleData( { '': {} }, 'gutenberg-examples' );
 
@@ -18,9 +19,11 @@
 
 		attributes: {
 			content: {
-				type: 'array',
-				source: 'children',
+				type: 'string',
+				source: 'meta',
 				selector: 'p',
+				meta: 'test-meta'
+
 			},
 		},
 
@@ -33,7 +36,7 @@
 
 
 			return el(
-				RichText,
+				TextControl,
 				{
 					tagName: 'p',
 					className: props.className,
@@ -44,7 +47,7 @@
 		},
 
 		save: function( props ) {
-			return el( RichText.Content, {
+			return el( TextControl.Content, {
 				tagName: 'p', value: props.attributes.content
 			} );
 		},
