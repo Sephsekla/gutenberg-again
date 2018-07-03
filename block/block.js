@@ -1,80 +1,98 @@
 /**
- * Hello World: Step 4
+ * Hello World: Step 3
  *
- * Adding extra controls: built-in alignment toolbar.
+ * Editable "Hello World" text.  Introduces the concept of attributes and
+ * extracting them, and the default text formatting added by RichText.
  */
 ( function( blocks, editor, i18n, element ) {
 	var el = element.createElement;
 	var __ = i18n.__;
 	var RichText = editor.RichText;
-	var AlignmentToolbar = editor.AlignmentToolbar;
-	var BlockControls = editor.BlockControls;
+	var TextControl = wp.components.TextControl;
 
-	i18n.setLocaleData( { '': {} }, 'gutenberg-examples' );
+	wp.i18n.setLocaleData( { '': {} }, 'gutenberg-examples' );
 
-	blocks.registerBlockType( 'gutenberg-examples/example-04-controls', {
-		title: __( 'Example: Controls', 'gutenberg-examples' ),
+	blocks.registerBlockType( 'gutenberg-examples/example-03-editable', {
+		title: __( 'Example: Editable', 'gutenberg-examples' ),
 		icon: 'universal-access-alt',
 		category: 'layout',
 
 		attributes: {
 			content: {
-				type: 'array',
-				source: 'children',
-				selector: 'p',
-			},
-			alignment: {
 				type: 'string',
-				default: 'none',
-			}
+				source: 'meta',
+				selector: 'p',
+				meta: 'test-meta'
+
+			},
 		},
 
 		edit: function( props ) {
 			var content = props.attributes.content;
-			var alignment = props.attributes.alignment;
-
+			var focus = props.focus;
 			function onChangeContent( newContent ) {
 				props.setAttributes( { content: newContent } );
 			}
 
-			function onChangeAlignment( newAlignment ) {
-				props.setAttributes( { alignment: newAlignment } );
-			}
 
-			return [
-				el(
-					BlockControls,
-					{ key: 'controls' },
-					el(
-						AlignmentToolbar,
-						{
-							value: alignment,
-							onChange: onChangeAlignment
-						}
-					)
-				),
-				el(
-					RichText,
-					{
-						key: 'richtext',
-						tagName: 'p',
-						style: { textAlign: alignment },
-						className: props.className,
-						onChange: onChangeContent,
-						value: content,
-					}
-				)
-			];
+			return el(
+				TextControl,
+				{
+					tagName: 'p',
+					className: props.className,
+					onChange: onChangeContent,
+					value: content,
+				}
+			);
 		},
 
 		save: function( props ) {
-			return el( RichText.Content, {
-				tagName: 'p', 
-				className: 'gutenberg-examples-align-' + props.attributes.alignment,
-				value: props.attributes.content
-			} );
+			return
 		},
-	} );
+	}
+	 );
+
+	 blocks.registerBlockType( 'gutenberg-examples/example-03-editable3', {
+		title: __( 'Example: Editable non-meta', 'gutenberg-examples' ),
+		icon: 'universal-access-alt',
+		category: 'layout',
+
+		attributes: {
+			content: {
+				type: 'string',
+				source: 'attribute',
+				selector: 'p',
+
+			},
+		},
+
+		edit: function( props ) {
+			var content = props.attributes.content;
+			var focus = props.focus;
+			function onChangeContent( newContent ) {
+				props.setAttributes( { content: newContent } );
+			}
+
+
+			return el(
+				TextControl,
+				{
+					tagName: 'p',
+					className: props.className,
+					onChange: onChangeContent,
+					value: content,
+				}
+			);
+		},
+
+		save: function( props ) {
+			return el('h3',{
+				className: 'test-h3',
+			},props.attributes.content);
+		},
+	}
+);
+
 } )(
 	window.wp.blocks,
 	window.wp.editor,
